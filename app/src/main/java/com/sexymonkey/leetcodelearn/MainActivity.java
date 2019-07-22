@@ -69,35 +69,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void reverseListNode(){
-        ListNode node1 = new ListNode(1);
-        ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(3);
-        ListNode node4 = new ListNode(4);
-        ListNode node5 = new ListNode(5);
+        Node node1 = new Node(1);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        Node node5 = new Node(5);
 
         node1.next = node2;
         node2.next = node3;
         node3.next = node4;
         node4.next = node5;
-        ListNode node = node1;
+        Node node = node1;
         while (node != null){
             Log.d(TAG,node.value+",");
             node = node.next;
         }
         Log.d(TAG,"\n");
 
-        ListNode reverseListNode = reverseListNode(node1);
+        Node reverseListNode = reverseListNode(node1);
         printListNode(reverseListNode);
 
     }
 
-    public ListNode reverseListNode(ListNode head){
+    public Node reverseListNode(Node head){
         if(head == null || head.next == null){
             return head;
         }
 
-        ListNode pre = null;
-        ListNode post = null;
+        Node pre = null;
+        Node post = null;
 
         while (head != null){
             post = head.next;
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
         return pre;
     }
 
-    public void printListNode(ListNode head){
+    public void printListNode(Node head){
 
-        ListNode current = head;
+        Node current = head;
         while (current != null){
             Log.d(TAG,current.value +",");
             current = current.next;
@@ -118,13 +118,4 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "\n");
     }
 
-    public class ListNode{
-        public ListNode next;
-        public ListNode pre;
-        public int value;
-
-        public ListNode(int value) {
-            this.value = value;
-        }
-    }
 }
