@@ -1,30 +1,29 @@
 package com.sexymonkey.leetcodelearn;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private TextView mTextView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTextView = (TextView) findViewById(R.id.tv);
-        int [] arr = {2,8,6,3,1,5};
-//        bubbleSort(arr);
-//        sellectionSort(arr);
-        reverseListNode();
     }
 
-    private void bubbleSort(int[] arr) {
+    public void bubbleSort(View view) {
+        int [] arr = {2,8,6,3,1,5};
         int[] array = Arrays.copyOf(arr, arr.length);
         for (int i = 1; i < array.length; i++) {
             boolean flag = true;
@@ -50,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void sellectionSort(int[] arr) {
+    public void sellectionSort(View view) {
+        int [] arr = {2,8,6,3,1,5};
         int[] array = Arrays.copyOf(arr, arr.length);
 
         for (int i = 0; i < array.length  - 1; i++) {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void reverseListNode(){
+    public void reverseListNode(View view){
         Node node1 = new Node(1);
         Node node2 = new Node(2);
         Node node3 = new Node(3);
@@ -118,4 +118,110 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "\n");
     }
 
+    public void twoSum(View view) {
+
+        int target = 9;
+
+        int [] array = { 1 , 2 ,6 ,9 ,10 ,7 ,3,-1};
+
+        HashMap<Integer, Integer> tempHashMap = new HashMap<>();
+
+        for (int i = 0; i < array.length; i++) {
+
+            int temp = target - array[i];
+
+            if(tempHashMap.containsKey(temp)){
+                Log.d(TAG,"索引值分别为 ： " + tempHashMap.get(temp) + ", " + i);
+            }else {
+                tempHashMap.put(array[i],i);
+            }
+        }
+
+    }
+
+    public void twoNumAdd(View view) {
+
+        Node n1 = new Node(2);
+        Node n2 = new Node(4);
+        Node n3 = new Node(3);
+        n1.next = n2;
+        n2.next = n3;
+
+
+        Node l1 = new Node(5);
+        Node l2 = new Node(6);
+        Node l3 = new Node(4);
+        l1.next = l2;
+        l2.next = l3;
+
+        int carrired = 0;
+
+        Node newNode = new Node(-1);
+
+        while (n1 != null || l1 != null){
+
+            newNode.next = new Node(n1.value + l1.value + carrired) ;
+
+            if(newNode.next.value / 10 != 0){
+                carrired = newNode.next.value / 10;
+                newNode.next = new Node(newNode.next.value % 10);
+            }
+
+            n1 = n1.next;
+            l1 = l1.next;
+
+            newNode = newNode.next;
+
+            Log.d(TAG,"value = " + newNode.value);
+        }
+
+        while (newNode.next != null){
+            Log.d(TAG,"value = " + newNode.value);
+            newNode = newNode.next;
+        }
+
+    }
+
+    public void lengthOfLongestSubstring(View view) {
+
+        String s = "afgfgfgbhgfhcdkjfkdadlkjfkbfkldnfcytyserspaxnzvbb";
+        char[] chars = s.toCharArray();
+        int len = s.length();
+
+        int start = 0;
+
+        int end = 0;
+
+        int maxMapSize = 0;
+
+        Map<Character,Integer> map = new HashMap<>();
+
+        while (end < len){
+            //从0开始遍历字符数组,如果map里没有这个字符就存入对应索引的值为key和索引value
+            if(!map.containsKey(chars[end])){
+                map.put(chars[end],end);
+                //算出map中元素最多时的元素个数即为结果
+                maxMapSize = Math.max(maxMapSize,map.size());
+                end ++;
+            }else{
+                //删除map中从0到这个重复字符的所有字符
+                while (map.get(chars[end]) != null && start <= map.get(chars[end])){
+                    map.remove(chars[start]);
+                    start++;
+                }
+                //重新加入重复的字符
+                map.put(chars[end],end);
+                end ++;
+            }
+
+            for (Map.Entry<Character, Integer> characterIntegerEntry : map.entrySet()) {
+                    Log.d(TAG,"key = " + characterIntegerEntry.getKey() +
+                            ", index = " + characterIntegerEntry.getValue());
+            }
+            Log.d(TAG,"==========================================" );
+        }
+
+        Log.d(TAG,"max = " + maxMapSize);
+
+    }
 }
